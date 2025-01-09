@@ -5,7 +5,7 @@ FROM node:18-alpine AS builder
 WORKDIR /app/backend
 
 COPY package*json ./
-COPY .env ./
+#COPY .env ./
 
 #Install dependencies
 RUN npm install --production
