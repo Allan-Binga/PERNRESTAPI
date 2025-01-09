@@ -17,12 +17,30 @@ jobs:
           cd backend
           docker build -t pernauthbackend:v1.0.0 .
 
+      - name: Save Docker image to file
+        run: docker save pernauthbackend:v1.0.0 -o pernauthbackend_v1.0.0.tar
+
+      - name: Upload Docker image to artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: pernauthbackend-image
+          path: pernauthbackend_v1.0.0.tar
+
   tag_and_push_image:
     runs-on: ubuntu-24.04
     needs: build_backend_image
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
+
+      - name: Download Docker image artifact
+        uses: actions/download-artifact@v2
+        with:
+          name: pernauthbackend-image
+          path: .
+
+      - name: Load Docker image from file
+        run: docker load -i pernauthbackend_v1.0.0.tar
 
       - name: Login to Docker Hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
