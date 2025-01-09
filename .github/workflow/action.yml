@@ -1,0 +1,21 @@
+name: pern-stack-authentication-system
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build_backend_image:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Build backend image.
+        run: |
+          cd backend
+          docker build -t pernauthbackend:v1.0.0 .    
+
+
+
