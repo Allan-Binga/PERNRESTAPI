@@ -3,7 +3,7 @@ name: pern-stack-authentication-system
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   build_backend_image:
